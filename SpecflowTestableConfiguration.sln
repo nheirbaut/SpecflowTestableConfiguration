@@ -1,22 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecflowTestableConfiguration.Api", "SpecflowTestableConfiguration.Api\SpecflowTestableConfiguration.Api.csproj", "{A6605F5A-817B-406A-88E5-3428DD3453D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecflowTestableConfiguration.Api", "SpecflowTestableConfiguration.Api\SpecflowTestableConfiguration.Api.csproj", "{A6605F5A-817B-406A-88E5-3428DD3453D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecflowTestableConfiguration.Api.Specs", "SpecflowTestableConfiguration.Api.Specs\SpecflowTestableConfiguration.Api.Specs.csproj", "{90B4DF74-DDBE-41A1-8903-AA0D2B0AB1A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A6605F5A-817B-406A-88E5-3428DD3453D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6605F5A-817B-406A-88E5-3428DD3453D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6605F5A-817B-406A-88E5-3428DD3453D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6605F5A-817B-406A-88E5-3428DD3453D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90B4DF74-DDBE-41A1-8903-AA0D2B0AB1A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90B4DF74-DDBE-41A1-8903-AA0D2B0AB1A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90B4DF74-DDBE-41A1-8903-AA0D2B0AB1A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90B4DF74-DDBE-41A1-8903-AA0D2B0AB1A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D521664-690F-4F97-A947-A4B3AFA37500}
 	EndGlobalSection
 EndGlobal
