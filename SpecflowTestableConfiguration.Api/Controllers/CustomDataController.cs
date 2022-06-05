@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using SpecflowTestableConfiguration.Api.Models;
+using Microsoft.Extensions.Options;
+using SpecflowTestableConfiguration.Api.Options;
+using SpecflowTestableConfiguration.Domain.Models;
 
 namespace SpecflowTestableConfiguration.Api.Controllers;
 
@@ -7,16 +9,16 @@ namespace SpecflowTestableConfiguration.Api.Controllers;
 [Route("[controller]")]
 public class CustomDataController : ControllerBase
 {
-    [HttpGet]
-    public ActionResult<CustomData> Get()
-    {
-        var customData = new CustomData
-        {
-            new CustomDataItem("Foo"),
-            new CustomDataItem("Bar"),
-            new CustomDataItem("Baz")
-        };
+    private readonly IOptions<CustomDataOptions> _customDataOptions;
 
-        return Ok(customData);
+    public CustomDataController(IOptions<CustomDataOptions> customDataOptions)
+    {
+        _customDataOptions = customDataOptions;
+    }
+
+    [HttpGet]
+    public ActionResult<IEnumerable<CustomDataItem>> Get()
+    {
+        return Ok(_customDataOptions.Value.ToList());
     }
 }
