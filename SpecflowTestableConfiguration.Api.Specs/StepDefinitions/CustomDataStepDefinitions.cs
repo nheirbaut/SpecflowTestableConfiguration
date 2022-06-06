@@ -9,18 +9,14 @@ public class CustomDataStepDefinitions
     private const string BaseAddress = "http://localhost/";
 
     public WebApplicationFactory<Program> WebApplicationFactory { get; }
-    public HttpClient Client { get; set; } = null!;
+
+    public Lazy<HttpClient> LazyClient => new(() => WebApplicationFactory.CreateDefaultClient(new Uri(BaseAddress)));
+
     private HttpResponseMessage Response { get; set; } = null!;
 
     public CustomDataStepDefinitions(WebApplicationFactory<Program> webApplicationFactory)
     {
         WebApplicationFactory = webApplicationFactory;
-    }
-
-    [Given(@"I am a client")]
-    public void GivenIAmAClient()
-    {
-        Client = WebApplicationFactory.CreateDefaultClient(new Uri(BaseAddress));
     }
 
     [Given(@"the repository has custom data")]
@@ -32,7 +28,7 @@ public class CustomDataStepDefinitions
     [When(@"I make a GET request to '([^']*)'")]
     public async Task WhenIMakeAGetRequestTo(string endpoint)
     {
-        Response = await Client.GetAsync(endpoint);
+        Response = await LazyClient.Value.GetAsync(endpoint);
     }
 
     [Then(@"the response status code is '([^']*)'")]
