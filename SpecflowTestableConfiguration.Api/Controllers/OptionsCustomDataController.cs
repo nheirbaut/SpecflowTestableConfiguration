@@ -7,11 +7,11 @@ namespace SpecflowTestableConfiguration.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CustomDataController : ControllerBase
+public class OptionsCustomDataController : ControllerBase
 {
     private readonly IOptions<CustomDataOptions> _customDataOptions;
 
-    public CustomDataController(IOptions<CustomDataOptions> customDataOptions)
+    public OptionsCustomDataController(IOptions<CustomDataOptions> customDataOptions)
     {
         _customDataOptions = customDataOptions;
     }
