@@ -22,6 +22,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<CustomDataOptions>(builder.Configuration.GetSection(CustomDataOptions.CustomData));
 
+var customDataOptions = new CustomDataOptions();
+builder.Configuration.Bind(CustomDataOptions.CustomData, customDataOptions);
+builder.Services.AddSingleton(customDataOptions);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
