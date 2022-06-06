@@ -2,6 +2,17 @@ using SpecflowTestableConfiguration.Api.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.ConfigureAppConfiguration((_, config) =>
+{
+    if (!Directory.Exists("CustomOptions"))
+        Directory.CreateDirectory("CustomOptions");
+
+    if (!File.Exists("CustomOptions/CustomData.json"))
+        File.Copy("DefaultCustomOptions/CustomData.json", "CustomOptions/CustomData.json");
+
+    config.AddJsonFile(Path.Combine("CustomOptions/CustomData.json"), optional: false, reloadOnChange: true);
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
