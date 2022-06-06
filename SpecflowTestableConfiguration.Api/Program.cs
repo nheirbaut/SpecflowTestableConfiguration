@@ -10,7 +10,7 @@ builder.Host.ConfigureAppConfiguration((_, config) =>
     if (!File.Exists("CustomOptions/CustomData.json"))
         File.Copy("DefaultCustomOptions/CustomData.json", "CustomOptions/CustomData.json");
 
-    config.AddJsonFile(Path.Combine("CustomOptions/CustomData.json"), optional: false, reloadOnChange: true);
+    config.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "CustomOptions/CustomData.json"), optional: false, reloadOnChange: true);
 });
 
 // Add services to the container.

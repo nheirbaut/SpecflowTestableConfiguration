@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc.Testing;
-using System.Net;
-using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using SpecflowTestableConfiguration.Api.Options;
 using SpecflowTestableConfiguration.Domain.Models;
+using System.Net;
+using System.Text.Json;
 
 namespace SpecflowTestableConfiguration.Api.Specs.StepDefinitions;
 
@@ -22,11 +22,42 @@ public class CustomDataStepDefinitions
         _webApplicationFactory = webApplicationFactory;
     }
 
-    [Given(@"the configuration has no custom data")]
-    public void GivenTheRepositoryHasNoCustomData()
+    [Given(@"the custom configuration file does not exist")]
+    public void GivenTheCustomConfigurationFileDoesNotExist()
     {
         if (Directory.Exists("CustomOptions"))
             Directory.Delete("CustomOptions", true);
+    }
+
+    [Given(@"the custom configuration file has no entries")]
+    public async Task GivenTheCustomConfigurationFileHasNoEntries()
+    {
+        if (!Directory.Exists("CustomOptions"))
+            Directory.CreateDirectory("CustomOptions");
+
+        if (File.Exists("CustomOptions/CustomData.json"))
+            File.Delete("CustomOptions/CustomData.json");
+
+        await File.WriteAllTextAsync("CustomOptions/CustomData.json", "{}");
+    }
+
+    [Given(@"the custom configuration file has an empty entry")]
+    public async Task GivenTheCustomConfigurationFileHasEmptyEntry()
+    {
+        if (!Directory.Exists("CustomOptions"))
+            Directory.CreateDirectory("CustomOptions");
+
+        if (File.Exists("CustomOptions/CustomData.json"))
+            File.Delete("CustomOptions/CustomData.json");
+
+        var emptyCustomData = new Dictionary<string, object>
+        {
+            { CustomDataOptions.CustomData, new List<CustomDataItem>() }
+        };
+
+        var emptyCustomDataJson = JsonSerializer.Serialize(emptyCustomData);
+
+        await File.WriteAllTextAsync("CustomOptions/CustomData.json", emptyCustomDataJson);
     }
 
     [When(@"I make a GET request to '([^']*)'")]
@@ -58,6 +89,17 @@ public class CustomDataStepDefinitions
         var responseCustomDataItems = JsonSerializer.Deserialize<List<CustomDataItem>>(responseContent, deserializeOptions);
 
         Assert.True(defaultCustomDataItems.EqualsList(responseCustomDataItems ?? Enumerable.Empty<CustomDataItem>()));
+    }
+
+    [Then(@"the response should contain no custom data options")]
+    public async Task ThenTheResponseShouldContainNoCustomDataOptions()
+    {
+        var responseContent = await _response.Content.ReadAsStringAsync();
+        var deserializeOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        var responseCustomDataItems = JsonSerializer.Deserialize<List<CustomDataItem>>(responseContent, deserializeOptions);
+
+        Assert.NotNull(responseCustomDataItems);
+        Assert.Empty(responseCustomDataItems);
     }
 }
 
