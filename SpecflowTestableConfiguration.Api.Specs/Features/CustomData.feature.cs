@@ -80,14 +80,14 @@ namespace SpecflowTestableConfiguration.Api.Specs.Features
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Get custom data")]
+        [Xunit.SkippableFactAttribute(DisplayName="Get default custom data as IOptions")]
         [Xunit.TraitAttribute("FeatureTitle", "CustomData")]
-        [Xunit.TraitAttribute("Description", "Get custom data")]
-        public virtual void GetCustomData()
+        [Xunit.TraitAttribute("Description", "Get default custom data as IOptions")]
+        public virtual void GetDefaultCustomDataAsIOptions()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get custom data", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get default custom data as IOptions", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 4
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -109,18 +109,15 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 5
- testRunner.Given("I am a client", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("the repository has custom data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 6
- testRunner.And("the repository has custom data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 7
  testRunner.When("I make a GET request to \'customdata\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 8
+#line 7
  testRunner.Then("the response status code is \'200\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 9
+#line 8
  testRunner.And("the response json should be the expected custom data items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
