@@ -125,13 +125,11 @@ public class CustomDataStepDefinitions
     [Then(@"the response should contain the following custom data options:")]
     public async Task ThenTheResponseShouldContainTheFollowingCustomDataOptions(Table table)
     {
-        var expectedCustomDataItems = table.CreateSet<CustomDataItem>();
-
         var responseContent = await _response.Content.ReadAsStringAsync();
         var deserializeOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         var responseCustomDataItems = JsonSerializer.Deserialize<List<CustomDataItem>>(responseContent, deserializeOptions);
 
-        Assert.True(expectedCustomDataItems.EqualsList(responseCustomDataItems ?? Enumerable.Empty<CustomDataItem>()));
+        table.CompareToSet(responseCustomDataItems);
     }
 }
 
