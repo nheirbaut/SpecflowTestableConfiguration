@@ -4,6 +4,7 @@ using SpecflowTestableConfiguration.Api.Options;
 using SpecflowTestableConfiguration.Domain.Models;
 using System.Net;
 using System.Text.Json;
+using TechTalk.SpecFlow.Assist;
 
 namespace SpecflowTestableConfiguration.Api.Specs.StepDefinitions;
 
@@ -60,6 +61,25 @@ public class CustomDataStepDefinitions
         await File.WriteAllTextAsync("CustomOptions/CustomData.json", emptyCustomDataJson);
     }
 
+    [Given(@"the custom configuration file has the following custom data entries:")]
+    public async Task GivenTheCustomConfigurationFileHasTheFollowingCustomDataEntries(Table table)
+    {
+        if (!Directory.Exists("CustomOptions"))
+            Directory.CreateDirectory("CustomOptions");
+
+        if (File.Exists("CustomOptions/CustomData.json"))
+            File.Delete("CustomOptions/CustomData.json");
+
+        var customData = new Dictionary<string, object>
+        {
+            { CustomDataOptions.CustomData, table.CreateSet<CustomDataItem>().ToList() }
+        };
+
+        var customDataJson = JsonSerializer.Serialize(customData);
+
+        await File.WriteAllTextAsync("CustomOptions/CustomData.json", customDataJson);
+    }
+
     [When(@"I make a GET request to '([^']*)'")]
     public async Task WhenIMakeAGetRequestTo(string endpoint)
     {
@@ -100,6 +120,18 @@ public class CustomDataStepDefinitions
 
         Assert.NotNull(responseCustomDataItems);
         Assert.Empty(responseCustomDataItems);
+    }
+
+    [Then(@"the response should contain the following custom data options:")]
+    public async Task ThenTheResponseShouldContainTheFollowingCustomDataOptions(Table table)
+    {
+        var expectedCustomDataItems = table.CreateSet<CustomDataItem>();
+
+        var responseContent = await _response.Content.ReadAsStringAsync();
+        var deserializeOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        var responseCustomDataItems = JsonSerializer.Deserialize<List<CustomDataItem>>(responseContent, deserializeOptions);
+
+        Assert.True(expectedCustomDataItems.EqualsList(responseCustomDataItems ?? Enumerable.Empty<CustomDataItem>()));
     }
 }
 

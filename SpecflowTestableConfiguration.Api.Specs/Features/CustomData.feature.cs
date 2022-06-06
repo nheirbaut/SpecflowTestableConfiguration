@@ -212,6 +212,66 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Get custom data as IOptions when defined")]
+        [Xunit.TraitAttribute("FeatureTitle", "CustomData")]
+        [Xunit.TraitAttribute("Description", "Get custom data as IOptions when defined")]
+        public virtual void GetCustomDataAsIOptionsWhenDefined()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get custom data as IOptions when defined", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 22
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Name"});
+                table1.AddRow(new string[] {
+                            "Entry 1"});
+                table1.AddRow(new string[] {
+                            "Entry 2"});
+                table1.AddRow(new string[] {
+                            "Entry 3"});
+#line 23
+ testRunner.Given("the custom configuration file has the following custom data entries:", ((string)(null)), table1, "Given ");
+#line hidden
+#line 28
+ testRunner.When("I make a GET request to \'customdata\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 29
+ testRunner.Then("the response status code is \'200\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Name"});
+                table2.AddRow(new string[] {
+                            "Entry 1"});
+                table2.AddRow(new string[] {
+                            "Entry 2"});
+                table2.AddRow(new string[] {
+                            "Entry 3"});
+#line 30
+ testRunner.And("the response should contain the following custom data options:", ((string)(null)), table2, "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable
