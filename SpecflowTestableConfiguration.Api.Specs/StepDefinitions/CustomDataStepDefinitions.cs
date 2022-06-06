@@ -1,5 +1,9 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
+using System.Text.Json;
+using Microsoft.Extensions.Configuration;
+using SpecflowTestableConfiguration.Api.Options;
+using SpecflowTestableConfiguration.Domain.Models;
 
 namespace SpecflowTestableConfiguration.Api.Specs.StepDefinitions;
 
@@ -18,10 +22,11 @@ public class CustomDataStepDefinitions
         _webApplicationFactory = webApplicationFactory;
     }
 
-    [Given(@"the repository has custom data")]
-    public void GivenTheRepositoryHasWeatherData()
+    [Given(@"the configuration has no custom data")]
+    public void GivenTheRepositoryHasNoCustomData()
     {
-        // TODO: Do nothing for now
+        if (Directory.Exists("CustomOptions"))
+            Directory.Delete("CustomOptions", true);
     }
 
     [When(@"I make a GET request to '([^']*)'")]
@@ -37,10 +42,27 @@ public class CustomDataStepDefinitions
         Assert.Equal(expected, _response.StatusCode);
     }
 
-    [Then(@"the response json should be the expected custom data items")]
-    public async Task ThenTheResponseJsonShouldBeTheExpectedCustomDataItems()
+    [Then(@"the response should contain the default custom data options")]
+    public async Task ThenTheResponseShouldContainTheDefaultCustomDataOptions()
     {
+        var defaultConfigurationBuilder = new ConfigurationBuilder();
+
+        defaultConfigurationBuilder.AddJsonFile("DefaultCustomOptions/CustomData.json");
+        var defaultConfiguration = defaultConfigurationBuilder.Build();
+
+        var defaultDataSection = defaultConfiguration.GetSection(CustomDataOptions.CustomData);
+        var defaultCustomDataItems = defaultDataSection.Get<List<CustomDataItem>>();
+
         var responseContent = await _response.Content.ReadAsStringAsync();
-        Assert.False(string.IsNullOrWhiteSpace(responseContent));
+        var deserializeOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        var responseCustomDataItems = JsonSerializer.Deserialize<List<CustomDataItem>>(responseContent, deserializeOptions);
+
+        Assert.True(defaultCustomDataItems.EqualsList(responseCustomDataItems ?? Enumerable.Empty<CustomDataItem>()));
     }
+}
+
+internal static class TestExtensions
+{
+    public static bool EqualsList(this IEnumerable<CustomDataItem> leftItems, IEnumerable<CustomDataItem> rightItems)
+        => !leftItems.Except(rightItems).Any();
 }

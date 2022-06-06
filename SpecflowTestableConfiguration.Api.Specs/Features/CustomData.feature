@@ -2,10 +2,10 @@
 	Web API for Custom data
 
 Scenario: Get default custom data as IOptions
-	Given the repository has custom data
+	Given the configuration has no custom data
 	When I make a GET request to 'customdata'
 	Then the response status code is '200'
-	And the response json should be the expected custom data items
+	And the response should contain the default custom data options
 
 #Scenario: Get no custom data as IOptions
 #
